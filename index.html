@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Cybersecurity Awareness Challenge 2026</title>
+    <style>
+        :root {
+            --bg-primary: #0a0e17;
+            --bg-card: #131b2e;
+            --accent-blue: #0088ff;
+            --accent-red: #ff3344;
+            --text-main: #f0f4f8;
+            --text-muted: #8a99ad;
+            --border-color: #23314a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        /* PAGE 1: THE TRAP */
+        #page-trap {
+            width: 100%;
+            max-width: 500px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px 24px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(0, 136, 255, 0.15);
+            color: var(--accent-blue);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 6px 12px;
+            border-radius: 20px;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        p.desc {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 24px;
+        }
+
+        .input-group {
+            text-align: left;
+            margin-bottom: 16px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 14px;
+            background: #090d16;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: #fff;
+            font-size: 0.95rem;
+            outline: none;
+        }
+
+        .btn-primary {
+            width: 100%;
+            background: var(--accent-blue);
+            color: white;
+            border: none;
+            padding: 14px;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: transform 0.1s ease, background 0.2s ease;
+        }
+
+        .btn-primary:active {
+            transform: scale(0.98);
+        }
+
+        .security-footer {
+            margin-top: 20px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        /* PAGE 2: THE REVEAL */
+        #page-hack {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            z-index: 9999;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        canvas#matrix {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0.25;
+            pointer-events: none;
+        }
+
+        .hack-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 650px;
+            margin: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .red-alert-banner {
+            width: 100%;
+            background: var(--accent-red);
+            color: #fff;
+            text-align: center;
+            padding: 16px;
+            font-weight: 900;
+            font-size: 1.4rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            box-shadow: 0 0 30px rgba(255, 51, 68, 0.8);
+            animation: pulse-red 0.8s infinite alternate;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        @keyframes pulse-red {
+            0% { opacity: 0.8; transform: scale(0.99); }
+            100% { opacity: 1; transform: scale(1.01); }
+        }
+
+        .terminal-box {
+            width: 100%;
+            background: rgba(10, 10, 10, 0.95);
+            border: 1px solid #ff3344;
+            border-radius: 8px;
+            padding: 16px;
+            font-family: "Courier New", Courier, monospace;
+            color: #00ff66;
+            font-size: 0.85rem;
+            box-shadow: 0 0 15px rgba(255, 51, 68, 0.3);
+            margin-bottom: 24px;
+        }
+
+        .terminal-line {
+            margin-bottom: 6px;
+            line-height: 1.4;
+            word-break: break-all;
+        }
+
+        .terminal-line.danger {
+            color: #ff3344;
+            font-weight: bold;
+        }
+
+        /* EDUCATIONAL LESSON CARD */
+        .lesson-card {
+            background: var(--bg-card);
+            border: 2px solid var(--accent-blue);
+            border-radius: 12px;
+            padding: 24px;
+            width: 100%;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .lesson-card h2 {
+            color: #0088ff;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .lesson-card p {
+            font-size: 0.9rem;
+            color: #cbd5e1;
+            line-height: 1.5;
+            margin-bottom: 14px;
+        }
+
+        .lesson-checklist {
+            text-align: left;
+            background: #090d16;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: #94a3b8;
+        }
+
+        .lesson-checklist li {
+            margin-left: 20px;
+            margin-bottom: 8px;
+        }
+
+        .btn-reset {
+            background: #334155;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- PAGE 1: THE TRAP -->
+    <div id="page-trap">
+        <div class="card">
+            <span class="badge">Cybersecurity Awareness 2026</span>
+            <h1>Cyber Security Skills Assessment</h1>
+            <p class="desc">Test your knowledge on phishing, password safety, and device security in 3 quick questions.</p>
+            
+            <div class="input-group">
+                <label>Participant Name (Optional)</label>
+                <input type="text" placeholder="Enter your name">
+            </div>
+
+            <button class="btn-primary" onclick="triggerHackDemo()">START QUIZ NOW</button>
+
+            <div class="security-footer">
+                🔒 256-Bit SSL Encrypted Verification Portal
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 2: THE REVEAL -->
+    <div id="page-hack">
+        <canvas id="matrix"></canvas>
+
+        <div class="hack-content">
+            <div class="red-alert-banner">
+                ⚠️ YOUR DEVICE IS HACKED! ⚠️
+            </div>
+
+            <div class="terminal-box" id="terminal"></div>
+
+            <div class="lesson-card">
+                <h2>🎓 Workshop Lesson: Never Click Unknown Links!</h2>
+                <p><strong>Don't worry — your device is completely safe!</strong> This was a simulated exercise for your cybersecurity workshop.</p>
+                <p>Just by clicking a single link or button, an attacker could silently execute malicious code, steal cookies, or log your personal details.</p>
+                
+                <div class="lesson-checklist">
+                    <strong>Rules for Link Safety:</strong>
+                    <ul>
+                        <li><strong>Inspect the URL:</strong> Check for typos in domain names (e.g., <code>micros0ft.com</code>).</li>
+                        <li><strong>Hover Before Clicking:</strong> On desktop, hover to see the real destination link.</li>
+                        <li><strong>Verify the Source:</strong> Never open links from unexpected emails, SMS, or QR codes.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <button class="btn-reset" onclick="resetDemo()">🔄 Reset Demo for Next Participant</button>
+        </div>
+    </div>
+
+    <script>
+        let audioCtx = null;
+        let alarmInterval = null;
+
+        function startAlarmSound() {
+            try {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                let toggle = false;
+                
+                alarmInterval = setInterval(() => {
+                    if (!audioCtx) return;
+                    let osc = audioCtx.createOscillator();
+                    let gain = audioCtx.createGain();
+                    
+                    osc.type = 'sawtooth';
+                    osc.frequency.value = toggle ? 880 : 440;
+                    toggle = !toggle;
+
+                    gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.25);
+
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.25);
+                }, 300);
+            } catch (e) {
+                console.log("Audio play blocked by browser policy");
+            }
+        }
+
+        function stopAlarmSound() {
+            if (alarmInterval) clearInterval(alarmInterval);
+            if (audioCtx) audioCtx.close();
+        }
+
+        function triggerHackDemo() {
+            document.getElementById('page-trap').style.display = 'none';
+            document.getElementById('page-hack').style.display = 'flex';
+
+            startAlarmSound();
+            startMatrix();
+            typeTerminalLogs();
+        }
+
+        function resetDemo() {
+            stopAlarmSound();
+            document.getElementById('page-hack').style.display = 'none';
+            document.getElementById('page-trap').style.display = 'flex';
+            document.getElementById('terminal').innerHTML = '';
+        }
+
+        function typeTerminalLogs() {
+            const terminal = document.getElementById('terminal');
+            const userAgent = navigator.userAgent;
+            const screenRes = `${window.screen.width}x${window.screen.height}`;
+            const time = new Date().toLocaleTimeString();
+
+            const logs = [
+                `[${time}] CRITICAL: Unauthorized malicious payload executed!`,
+                `[${time}] Extracting Device Details...`,
+                `[${time}] Platform: ${navigator.platform}`,
+                `[${time}] Screen Resolution: ${screenRes}`,
+                `[${time}] User Agent: ${userAgent.substring(0, 50)}...`,
+                `[${time}] Bypassing firewall protocols... SUCCESS`,
+                `[${time}] Accessing active browser session tokens... EXFILTRATED`,
+                `----------------------------------------------------`,
+                `[DANGER] DEMO COMPLETE: Device compromised via single untrusted click.`
+            ];
+
+            let index = 0;
+            function printLine() {
+                if (index < logs.length) {
+                    const line = document.createElement('div');
+                    line.className = 'terminal-line' + (logs[index].includes('DANGER') || logs[index].includes('CRITICAL') ? ' danger' : '');
+                    line.innerText = logs[index];
+                    terminal.appendChild(line);
+                    index++;
+                    setTimeout(printLine, 250);
+                }
+            }
+            printLine();
+        }
+
+        function startMatrix() {
+            const canvas = document.getElementById('matrix');
+            const ctx = canvas.getContext('2d');
+
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const chars = "0110100101010111001010101010";
+            const fontSize = 14;
+            const columns = canvas.width / fontSize;
+            const drops = Array.from({ length: columns }).fill(1);
+
+            function draw() {
+                ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                ctx.fillStyle = "#0f0";
+                ctx.font = fontSize + "px monospace";
+
+                for (let i = 0; i < drops.length; i++) {
+                    const text = chars.charAt(Math.floor(Math.random() * chars.length));
+                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+                    drops[i]++;
+                }
+            }
+            setInterval(draw, 33);
+        }
+    </script>
+</body>
+</html>
